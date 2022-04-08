@@ -21,9 +21,10 @@ export const PanelHeaderMenuTrigger: FC<Props> = ({ children, ...divProps }) => 
 
       event.stopPropagation();
 
-      setPanelMenuOpen(!panelMenuOpen);
+      // setPanelMenuOpen(!panelMenuOpen);
     },
-    [clickCoordinates, panelMenuOpen, setPanelMenuOpen]
+    // [clickCoordinates, panelMenuOpen, setPanelMenuOpen]
+    [clickCoordinates]
   );
   const onMouseDown = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
