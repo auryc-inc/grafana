@@ -8,7 +8,7 @@ import { CustomScrollbar, stylesFactory, Themeable2, withTheme2 } from '@grafana
 import { createErrorNotification } from 'app/core/copy/appNotification';
 import { Branding } from 'app/core/components/Branding/Branding';
 import { DashboardGrid } from '../dashgrid/DashboardGrid';
-import { DashNav } from '../components/DashNav';
+// import { DashNav } from '../components/DashNav';
 import { DashboardSettings } from '../components/DashboardSettings';
 import { PanelEditor } from '../components/PanelEditor/PanelEditor';
 import { initDashboard } from '../state/initDashboard';
@@ -335,7 +335,7 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
       <div className={containerClassNames}>
         {kioskMode !== KioskMode.Full && (
           <header data-testid={selectors.pages.Dashboard.DashNav.navV2}>
-            <DashNav
+            {/* <DashNav
               dashboard={dashboard}
               title={dashboard.title}
               folderTitle={dashboard.meta.folderTitle}
@@ -343,7 +343,7 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
               onAddPanel={this.onAddPanel}
               kioskMode={kioskMode}
               hideTimePicker={dashboard.timepicker.hidden}
-            />
+            /> */}
           </header>
         )}
 
