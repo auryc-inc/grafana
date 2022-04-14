@@ -1,5 +1,7 @@
 // Libraries
 import React, { PureComponent, CSSProperties } from 'react';
+/* eslint-disable id-blacklist, no-restricted-imports, @typescript-eslint/ban-types */
+import moment from 'moment';
 import ReactGridLayout, { ItemCallback } from 'react-grid-layout';
 import classNames from 'classnames';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -142,6 +144,7 @@ export class DashboardGrid extends PureComponent<Props, State> {
   }
 
   renderPanels(gridWidth: number) {
+    const { dashboard } = this.props;
     const panelElements = [];
 
     // Reset last panel bottom
@@ -157,6 +160,23 @@ export class DashboardGrid extends PureComponent<Props, State> {
 
     for (const panel of this.props.dashboard.panels) {
       const panelClasses = classNames({ 'react-grid-item--fullscreen': panel.isViewing });
+      // add time range to auryc embeded link
+      if (typeof dashboard.time.from !== 'string') {
+        let iframeContents = panel.options.content.split(' ');
+        // prettier-ignore
+        for (let idx = 0; idx < iframeContents.length; idx++) {
+          if (iframeContents[idx].includes('src')) {
+            let hashPosition = iframeContents[idx].indexOf('#');
+            if (hashPosition !== -1) {
+              let from = moment(dashboard.time.from['_i']).format('YYYY-MM-DD');
+              let to = moment(dashboard.time.to['_i']).format('YYYY-MM-DD');
+              let newSrc = `${iframeContents[idx].substring(0, hashPosition)}?date=${from}:${to}${iframeContents[idx].substring(hashPosition)}`;
+              iframeContents[idx] = newSrc;
+            }
+          }
+        }
+        panel.options.content = iframeContents.join(' ');
+      }
 
       panelElements.push(
         <GrafanaGridItem
