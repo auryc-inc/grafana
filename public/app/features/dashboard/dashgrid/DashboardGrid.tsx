@@ -162,20 +162,22 @@ export class DashboardGrid extends PureComponent<Props, State> {
       const panelClasses = classNames({ 'react-grid-item--fullscreen': panel.isViewing });
       // add time range to auryc embeded link
       if (typeof dashboard.time.from !== 'string') {
-        let iframeContents = panel.options.content.split(' ');
-        // prettier-ignore
-        for (let idx = 0; idx < iframeContents.length; idx++) {
-          if (iframeContents[idx].includes('src')) {
-            let hashPosition = iframeContents[idx].indexOf('#');
-            if (hashPosition !== -1) {
-              let from = moment(dashboard.time.from['_i']).format('YYYY-MM-DD');
-              let to = moment(dashboard.time.to['_i']).format('YYYY-MM-DD');
-              let newSrc = `${iframeContents[idx].substring(0, hashPosition)}?date=${from}:${to}${iframeContents[idx].substring(hashPosition)}`;
-              iframeContents[idx] = newSrc;
+        if (panel.options && panel.options.content) {
+          let iframeContents = panel.options.content.split(' ');
+          // prettier-ignore
+          for (let idx = 0; idx < iframeContents.length; idx++) {
+            if (iframeContents[idx].includes('src')) {
+              let hashPosition = iframeContents[idx].indexOf('#');
+              if (hashPosition !== -1) {
+                let from = moment(dashboard.time.from['_i']).format('YYYY-MM-DD');
+                let to = moment(dashboard.time.to['_i']).format('YYYY-MM-DD');
+                let newSrc = `${iframeContents[idx].substring(0, hashPosition)}?date=${from}:${to}${iframeContents[idx].substring(hashPosition)}`;
+                iframeContents[idx] = newSrc;
+              }
             }
           }
+          panel.options.content = iframeContents.join(' ');
         }
-        panel.options.content = iframeContents.join(' ');
       }
 
       panelElements.push(
