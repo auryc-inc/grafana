@@ -169,6 +169,9 @@ export class DashboardGrid extends PureComponent<Props, State> {
             if (iframeContents[idx].includes('src')) {
               let hashPosition = iframeContents[idx].indexOf('#');
               if (hashPosition !== -1) {
+                if (iframeContents[idx].substring(0, hashPosition).includes('date=')) {
+                  break;
+                }
                 let from = moment(dashboard.time.from['_i']).format('YYYY-MM-DD');
                 let to = moment(dashboard.time.to['_i']).format('YYYY-MM-DD');
                 let newSrc = `${iframeContents[idx].substring(0, hashPosition)}?date=${from}:${to}${iframeContents[idx].substring(hashPosition)}`;
