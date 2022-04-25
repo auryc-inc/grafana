@@ -164,27 +164,21 @@ export class DashboardGrid extends PureComponent<Props, State> {
       if (typeof dashboard.time.from !== 'string') {
         if (panel.options && panel.options.content) {
           let iframeContents = panel.options.content.split(' ');
-          console.log(1, iframeContents);
           // prettier-ignore
           for (let idx = 0; idx < iframeContents.length; idx++) {
             if (iframeContents[idx].includes('src')) {
               let queryPosition = iframeContents[idx].indexOf('dashboard=true');
-              console.log(2, queryPosition)
               if (queryPosition !== -1) {
                 if (iframeContents[idx].substring(0, queryPosition).includes('date=')) {
-                  console.log(3, 'contain')
                   break;
                 }
                 let from = moment(dashboard.time.from['_i']).format('YYYY-MM-DD');
                 let to = moment(dashboard.time.to['_i']).format('YYYY-MM-DD');
-                console.log(2.1, iframeContents[idx].substring(0, queryPosition), iframeContents[idx].substring(queryPosition))
                 let newSrc = `${iframeContents[idx].substring(0, queryPosition)}date=${from}:${to}&${iframeContents[idx].substring(queryPosition)}`;
-                console.log(4, newSrc)
                 iframeContents[idx] = newSrc;
               }
             }
           }
-          console.log(5, iframeContents, iframeContents.join(' '));
           panel.options.content = iframeContents.join(' ');
         }
       }
